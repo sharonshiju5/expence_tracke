@@ -54,10 +54,12 @@ export default function Home() {
           </div>
         ) : (
           <div className='bg-black'>
-            <Dashboard user={user} onLogout={handleLogout} />
-            <Graph />
-            <Transactions />
-            {/* <Nav /> */}
+            <div className="mb-20">
+              <Dashboard user={user} onLogout={handleLogout} />
+              <Graph />
+              <Transactions />
+            </div>
+            <Nav />
           </div>
         )
       ) : (

@@ -32,11 +32,8 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <Suspense fallback={<SkeletonLoader />}>
-          <div className="mb-20">
-            {children}
-          </div>
+          {children}
         </Suspense>
-        <Nav />
       </body>
     </html>
   );
