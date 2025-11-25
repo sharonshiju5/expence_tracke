@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import SkeletonLoader from "@/components/SkeletonLoader";
+import Nav from "@/components/Nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +32,11 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <Suspense fallback={<SkeletonLoader />}>
-
-          {children}
+          <div className="mb-20">
+            {children}
+          </div>
         </Suspense>
+        <Nav />
       </body>
     </html>
   );

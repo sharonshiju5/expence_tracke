@@ -16,10 +16,25 @@ export const getCurrentUser = (): User | null => {
   return null;
 };
 
+export const setLoginResponse = (response: any) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('accessToken', response.token);
+    localStorage.setItem('currentUser', JSON.stringify(response.user));
+  }
+};
+
 export const logout = () => {
   if (typeof window !== 'undefined') {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('accessToken');
   }
+};
+
+export const isAuthenticated = (): boolean => {
+  if (typeof window !== 'undefined') {
+    return !!localStorage.getItem('accessToken');
+  }
+  return false;
 };
 
 export const isAdmin = (user: User | null) => {

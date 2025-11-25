@@ -1,5 +1,9 @@
 'use client'
+import { setLoginResponse } from '@/lib/auth'
+import { adminRegister } from '@/lib/services/apiService'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 
 function LoginPage() {
   const [email, setEmail] = useState('')
@@ -7,12 +11,23 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const router = useRouter();
+
+
   const handleLogin = async () => {
     setLoading(true)
-    // Simulate login process
-    setTimeout(() => {
+    try {
+      const response = await adminRegister(email,password)
+      if (response.token) {
+        setLoginResponse(response)
+        toast.success('Login successful!')
+        router.push("/")
+      }
+    } catch (error) {
+      console.log(error);
+    }finally{
       setLoading(false)
-    }, 2000)
+    }
   }
 
   return (
@@ -63,6 +78,8 @@ function LoginPage() {
         </div>
       </div>
 
+      <Toaster position='top-center' />
+
       {/* Forgot Password */}
       <div className='text-right mb-20'>
         <button className='text-white underline'>Forgot Password</button>
@@ -72,7 +89,7 @@ function LoginPage() {
       <button
         onClick={handleLogin}
         disabled={loading}
-        className=' absolute bottom-20 w-[90%] bg-gradient-to-r from-pink-400 to-purple-400 rounded-full py-4 text-black font-semibold text-lg flex items-center justify-center gap-2 disabled:opacity-70'
+        className=' absolute bottom-24 w-[90%] bg-gradient-to-r from-pink-400 to-purple-400 rounded-full py-4 text-black font-semibold text-lg flex items-center justify-center gap-2 disabled:opacity-70'
       >
         {loading ? (
           <>
