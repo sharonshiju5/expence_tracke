@@ -1,42 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import add from "./assetes/add.png"
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
+import { getIncome } from '@/lib/services/apiService';
+import { getCurrentUser } from '@/lib/auth';
 
 const Transactions = () => {
+    const router = useRouter();
+    const [expenses, setExpensesData] = useState([]);
+    const [searchTerm] = useState('');
 
-    const data = [
-  {
-    name: "John Wick",
-    phone: "+91 7994263529",
-    amount: "+QAR 2,300",
-    status: "Received",
-  },
-  {
-    name: "Emily Carter",
-    phone: "+974 55234122",
-    amount: "-QAR 1,050",
-    status: "Paid",
-  },
-  {
-    name: "Michael Jordan",
-    phone: "+91 8895632145",
-    amount: "+QAR 4,700",
-    status: "Pending",
-  },
-  {
-    name: "Sophia Fernandes",
-    phone: "+974 66453278",
-    amount: "-QAR 650",
-    status: "Paid",
-  },
-  {
-    name: "Liam Thomas",
-    phone: "+91 9845632011",
-    amount: "+QAR 900",
-    status: "Received",
-  },
-];
+    async function HandelGetExpence() {
+        try {
+            const response = await getIncome()
+            console.log('API Response:', response)
+            if (response.status === 'success') {
+                setExpensesData(response.data)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
+    useEffect(() => {
+        HandelGetExpence()
+    }, [])
+    
     return (
         <div className='w-full p-5 text-white mb-20'>
             <div className='w-full flex gap-4'>
@@ -50,42 +39,34 @@ const Transactions = () => {
                 </button>
             </div>
             <div className="mt-5 text-2xl font-semibold flex justify-between items-center">Recent Transactions
-                <button className='text-[#FC95E1] text-sm'>View All</button>
+                <button onClick={() => {
+                    const user = getCurrentUser();
+                    const route = user?.role === 'admin' ? '/report' : '/transaction';
+                    router.push(route);
+                }} className='text-[#FC95E1] text-sm'>View All</button>
             </div>
             <div className='mt-4 space-y-3'>
-                {data.map((item, index) => {
-                    const getStatusColor = (status: string) => {
-                        switch(status) {
-                            case 'Received': return '#16A34A';
-                            case 'Pending': return '#EAB308';
-                            case 'Paid': return '#DC2626';
-                            default: return '#16A34A';
-                        }
-                    };
-                    
+                {expenses.length > 0 ? expenses.slice(0, 5).map((item: any, index: number) => {
                     return (
-                        <div key={index} className=' rounded-2xl p-4 flex items-center justify-between'>
+                        <div key={index} className='rounded-2xl p-4 flex items-center justify-between'>
                             <div className='flex items-center gap-3'>
                                 <div className='w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center text-black font-bold'>
-                                    {item.name.split(' ').map(n => n[0]).join('')}
+                                    {item.customerName?.charAt(0) || 'C'}
                                 </div>
                                 <div>
-                                    <h3 className='text-white font-medium'>{item.name}</h3>
-                                    <p className='text-gray-400 text-sm'>{item.phone}</p>
+                                    <h3 className='text-white font-medium'>{item.customerName}</h3>
+                                    <p className='text-gray-400 text-sm'>{item.customerNumber}</p>
                                 </div>
                             </div>
                             <div className='text-right'>
-                                <p className={`font-semibold ${item.amount.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>{item.amount}</p>
-                                <span 
-                                    className='text-white text-xs px-3 py-1 rounded-full w-20 text-center inline-block'
-                                    style={{ backgroundColor: getStatusColor(item.status) }}
-                                >
+                                <p className='font-semibold text-green-400'>+QAR {item.amount}</p>
+                                <span className='text-white text-xs px-3 py-1 rounded-full bg-green-600'>
                                     {item.status}
                                 </span>
                             </div>
                         </div>
                     );
-                })}
+                }) :("no data found")}
             </div>
         </div>
     )

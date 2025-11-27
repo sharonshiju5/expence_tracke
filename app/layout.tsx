@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Suspense } from "react";
-import SkeletonLoader from "@/components/SkeletonLoader";
-import Nav from "@/components/Nav";
+import HomeWrapper from "@/components/HomeWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
         suppressHydrationWarning={true}
       >
-        <Suspense fallback={<SkeletonLoader />}>
-          {children}
-        </Suspense>
+        <HomeWrapper>{children}</HomeWrapper>
       </body>
     </html>
   );

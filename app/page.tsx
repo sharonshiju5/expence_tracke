@@ -8,7 +8,7 @@ import Dashboard from '@/components/Dashboard';
 import { useRouter } from 'next/navigation';
 import Graph from '@/components/Graph';
 import Transactions from '@/components/Transactions';
-import Nav from '@/components/Nav';
+
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -59,7 +59,7 @@ export default function Home() {
               <Graph />
               <Transactions />
             </div>
-            <Nav />
+
           </div>
         )
       ) : (

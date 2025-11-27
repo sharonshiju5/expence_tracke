@@ -4,16 +4,20 @@ import React, { useEffect, useState } from 'react'
 import notification from "@/components/assetes/notification.png"
 import Image from "next/image";
 import Nav from "@/components/Nav";
-import AddIncomeModal from "@/components/AddIncomeModal";
-import { getexpence, getIncome } from '@/lib/services/apiService';
+import AddIncomeModal from "@/components/modals/AddIncomeModal";
+import AddExpenseModal from "@/components/modals/AddExpenseModal";
+import { getexpence, getIncome, updateIncome } from '@/lib/services/apiService';
+import { useAuth } from '@/hooks/useAuth';
 
 const TransactionPage = () => {
+    useAuth('user'); // Only users can access this page
     const [activeTab, setActiveTab] = useState('Income')
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState<string>('')
     const [expandedTransaction, setExpandedTransaction] = useState<number | string | null>(null)
-    const [expenses, setExpensesData] = useState([])
-    const [incomeData, setIncomeData] = useState([])
+    const [expenses, setExpensesData] = useState<any[]>([])
+    const [incomeData, setIncomeData] = useState<any[]>([])
     const [showAddIncomeModal, setShowAddIncomeModal] = useState(false)
+    const [showAddExpenseModal, setShowAddExpenseModal] = useState(false)
     
     // Filter income data based on status
     const completedTransactions = incomeData.filter((item: any) => item.status !== 'Pending')
@@ -21,7 +25,7 @@ const TransactionPage = () => {
 
     async function HandelGetExpence() {
         try {
-            const response = await getexpence()
+            const response = await getexpence(searchTerm)
             console.log('API Response:', response)
             if (response.status === 'success') {
                 setExpensesData(response.data)
@@ -33,7 +37,8 @@ const TransactionPage = () => {
 
     async function HandleGetIncome(status = 'Completed') {
         try {
-            const response = await getIncome(status)
+            const queryParams = `?status=${status}&itemName=${searchTerm}`;
+            const response = await getIncome(queryParams)
             if (response.status === 'success') {
                 setIncomeData(response.data)
             }
@@ -41,9 +46,28 @@ const TransactionPage = () => {
             console.log(error);
         }
     }
+    const handleUpdateTransaction = async (id: string) => {
+        try {
+            await updateIncome(id);
+            HandleGetIncome('Pending'); // Refresh pending transactions
+        } catch (error) {
+            console.error('Error updating transaction:', error);
+        }
+    };
+
     useEffect(() => {
         HandleGetIncome('Completed') // Default to completed transactions
     }, [])
+
+    useEffect(() => {
+        if (activeTab === 'Expense') {
+            HandelGetExpence()
+        } else if (activeTab === 'Income') {
+            HandleGetIncome('Completed')
+        } else if (activeTab === 'Updated') {
+            HandleGetIncome('Pending')
+        }
+    }, [searchTerm])
     return (
         <div className='bg-black min-h-screen relative p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto'>
             {/* Header */}
@@ -141,7 +165,10 @@ const TransactionPage = () => {
                                         <p className='text-gray-400 text-sm'>{transaction.customerNumber}</p>
                                     </div>
                                 </div>
-                                <button className='px-6 py-2 bg-[#FC95E1] text-black rounded-full text-sm font-medium'>
+                                <button 
+                                    onClick={() => handleUpdateTransaction(transaction._id)}
+                                    className='px-6 py-2 bg-[#FC95E1] text-black rounded-full text-sm font-medium'
+                                >
                                     Update
                                 </button>
                             </div>
@@ -271,7 +298,7 @@ const TransactionPage = () => {
                 ) : activeTab === 'Income' ? (
                     /* Transaction List Items - Show only completed */
                     incomeData.map((transaction: any, index: number) => (
-                    <div key={transaction.id} className={`bg-[#2A2A2A] rounded-2xl text-white transition-all duration-300 ease-in-out ${expandedTransaction === transaction.id ? 'p-6' : 'p-4'}`}>
+                    <div key={transaction._id} className={`bg-[#2A2A2A] rounded-2xl text-white transition-all duration-300 ease-in-out ${expandedTransaction === transaction.id ? 'p-6' : 'p-4'}`}>
                         <div className={`transition-all duration-300 ease-in-out ${expandedTransaction === transaction.id ? 'opacity-100 max-h-screen' : 'opacity-0 max-h-0 overflow-hidden'}`}>
                             {expandedTransaction === transaction.id && (
                             <>
@@ -354,7 +381,7 @@ const TransactionPage = () => {
             <button 
                 onClick={() => {
                     if (activeTab === 'Expense') {
-                        window.location.href = '/add-expense';
+                        setShowAddExpenseModal(true);
                     } else {
                         setShowAddIncomeModal(true);
                     }
@@ -376,7 +403,15 @@ const TransactionPage = () => {
                 }}
             />
             
-            <Nav />
+            <AddExpenseModal 
+                isOpen={showAddExpenseModal}
+                onClose={() => setShowAddExpenseModal(false)}
+                onSuccess={() => {
+                    HandelGetExpence();
+                }}
+            />
+            
+            {/* <Nav /> */}
         </div>
     )
 }

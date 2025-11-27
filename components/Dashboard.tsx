@@ -23,9 +23,9 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
         <button className='w-40 h-12 bg-[#2A2A2A] mb-5 flex justify-center items-center gap-2 p-5 rounded-2xl'>
             <Image src={calendar} className=' w-7' alt="Notification" />
             This month</button>
-        <button className='w-12 h-12 bg-[#2a2a2a] mb-5 rounded-full flex justify-center items-center'>
+        {/* <button className='w-12 h-12 bg-[#2a2a2a] mb-5 rounded-full flex justify-center items-center'>
             <Image src={notification} className=' w-7' alt="Notification" />
-        </button>
+        </button> */}
       </div>
       <div className='grid grid-cols-2  gap-3 text-black'>
         <div className='bg-gradient-to-br from-[#16A34A] to-white rounded-2xl p-4'>
