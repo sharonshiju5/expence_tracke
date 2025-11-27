@@ -4,7 +4,7 @@ import { getreport } from '@/lib/services/apiService';
 import { useAuth } from '@/hooks/useAuth';
 
 const ReportPage = () => {
-  useAuth('user'); // Only users can access this page
+  useAuth(); // Only users can access this page
   const [searchTerm, setSearchTerm] = useState('')
   const [reportData, setReportData] = useState<any[]>([])
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 })
