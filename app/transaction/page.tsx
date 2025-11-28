@@ -25,7 +25,7 @@ const TransactionPage = () => {
 
     async function HandelGetExpence() {
         try {
-            const response = await getexpence(searchTerm)
+            const response = await getexpence(searchTerm, '')
             console.log('API Response:', response)
             if (response.status === 'success') {
                 setExpensesData(response.data)
