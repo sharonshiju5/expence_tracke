@@ -23,7 +23,7 @@ function LoginPage() {
         toast.success('Login successful!')
         router.push("/")
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       toast.error(error?.response?.data?.message || 'Login failed. Please try again.' )
     }finally{
@@ -83,7 +83,12 @@ function LoginPage() {
 
       {/* Forgot Password */}
       <div className='text-right mb-20'>
-        <button className='text-white underline'>Forgot Password</button>
+        <button 
+          onClick={() => router.push('/forgot-password')}
+          className='text-white underline'
+        >
+          Forgot Password
+        </button>
       </div>
 
       {/* Login Button */}
