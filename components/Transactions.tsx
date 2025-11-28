@@ -28,12 +28,12 @@ const Transactions = () => {
     
     return (
         <div className='w-full p-5 text-white mb-20'>
-            <div className='w-full flex gap-4'>
-                <button className='w-full h-13 bg-[#FC95E1] p-3 rounded-4xl flex items-center justify-center'>
-                    <Image className='w-5 h-5 mr-2' src={add} alt="Add" />
+            <div className='w-full flex gap-4 text-sm '>
+                <button className='w-full h-13 whitespace-nowrap bg-[#FC95E1] p-3 rounded-4xl flex items-center justify-center'>
+                    <Image className='invert-100 w-5 h-5 mr-2' src={add} alt="Add" />
                     Add Transaction
                 </button>
-                <button className='w-full h-13 bg-[#FFFFFF] p-3 rounded-4xl flex items-center justify-center text-black'>
+                <button className='w-full h-13 whitespace-nowrap bg-[#FFFFFF] p-3 rounded-4xl flex items-center justify-center text-black'>
                     <Image className='w-5 h-5 mr-2' src={add} alt="Add" />
                     Add Transaction
                 </button>
