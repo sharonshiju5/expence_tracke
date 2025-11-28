@@ -11,14 +11,15 @@ interface HomeWrapperProps {
 const HomeWrapper: React.FC<HomeWrapperProps> = ({ children }) => {
     const pathname = usePathname();
     const isLoginPage = pathname === '/login';
+    const isforgotPassword = pathname === '/forgot-password';
 
     return (
         <>
-            {!isLoginPage && <Header />}
-            <div className={!isLoginPage ? 'pt-16' : ''}>
+            {!isLoginPage&& !isforgotPassword  && <Header />}
+            <div className={!isLoginPage&&!isforgotPassword  ? 'pt-16' : ''}>
                 {children}
-            </div>
-            {!isLoginPage && <Nav />}
+            </div>  
+            {!isLoginPage && !isforgotPassword && <Nav />}
         </>
     );
 };

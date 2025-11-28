@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import notification from "@/components/assetes/notification.png"
 import Image from "next/image";
 import AddUserModal from '@/components/modals/AddUserModal';
+import { getusers } from '@/lib/services/apiService';
 
 const UsersPage = () => {
   useAuth('admin'); // Only admins can access this page
@@ -11,32 +12,35 @@ const UsersPage = () => {
   const [users, setUsers] = useState<any[]>([])
   const [showAddUserModal, setShowAddUserModal] = useState(false)
 
-  // Mock data - replace with actual API call
-  const mockUsers = [
-    { id: 1, name: 'Sooraj', mobile: '+91 7994263529', role: 'Role 1' },
-    { id: 2, name: 'Sooraj', mobile: '+91 7994263529', role: 'Role 1' },
-    { id: 3, name: 'Sooraj', mobile: '+91 7994263529', role: 'Role 1' },
-    { id: 4, name: 'Sooraj', mobile: '+91 7994263529', role: 'Role 1' },
-    { id: 5, name: 'Sooraj', mobile: '+91 7994263529', role: 'Role 1' },
-    { id: 6, name: 'Sooraj', mobile: '+91 7994263529', role: 'Role 1' },
-  ]
-
+  async function FetchUsers() {
+    try {
+      const response = await getusers()
+      if (response.statusCode === 200) {
+        setUsers(response.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   useEffect(() => {
-    setUsers(mockUsers)
+    FetchUsers()
   }, [])
 
   return (
     <div className='bg-black min-h-screen p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto'>
       {/* Header */}
       <div className='flex justify-between items-center mb-6'>
-        <button className='w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center'>
+        {/* <button 
+          onClick={() => window.history.back()}
+          className='w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center'
+        >
           <svg className='w-5 h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
           </svg>
-        </button>
-        <button className='w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center'>
+        </button> */}
+        {/* <button className='w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center'>
           <Image className='w-6 h-6' src={notification} alt="Notification" />
-        </button>
+        </button> */}
       </div>
 
       {/* Search Bar */}
@@ -72,30 +76,23 @@ const UsersPage = () => {
       {/* Users List */}
       <div className='space-y-4 mb-20'>
         {users.map((user: any, index: number) => (
-          <div key={user.id} className='bg-[#2A2A2A] rounded-2xl p-6 text-white'>
-            <div className='grid grid-cols-4 gap-4 items-center'>
-              <div>
-                <p className='text-gray-400 text-sm mb-1'>SI.NO</p>
-                <p className='text-white font-medium'>0{index + 1}</p>
+          <div key={user._id} className='bg-[#2A2A2A] rounded-2xl p-6 text-white'>
+            <div className='flex gap-3 items-center'>
+              <div className='flex-shrink-0'>
+                <p className='text-gray-400 text-xs'>SI.NO</p>
+                <p className='text-white text-sm'>{index + 1}</p>
               </div>
-              <div>
-                <p className='text-gray-400 text-sm mb-1'>Name</p>
-                <p className='text-white font-medium'>{user.name}</p>
+              <div className='flex-1 min-w-0'>
+                <p className='text-gray-400 text-xs'>Name</p>
+                <p className='text-white text-sm truncate'>{user.username}</p>
               </div>
-              <div>
-                <p className='text-gray-400 text-sm mb-1'>Mobile Number</p>
-                <p className='text-white font-medium'>{user.mobile}</p>
+              <div className='flex-1 min-w-0'>
+                <p className='text-gray-400 text-xs'>Mobile</p>
+                <p className='text-white text-sm truncate'>{user.mobile}</p>
               </div>
-              <div className='flex items-center justify-between'>
-                <div>
-                  <p className='text-gray-400 text-sm mb-1'>User Role</p>
-                  <p className='text-white font-medium'>{user.role}</p>
-                </div>
-                <button className='text-gray-400 hover:text-white'>
-                  <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                  </svg>
-                </button>
+              <div className='flex-shrink-0'>
+                <p className='text-gray-400 text-xs'>Role</p>
+                <p className='text-white text-sm'>{user.role}</p>
               </div>
             </div>
           </div>
@@ -106,8 +103,7 @@ const UsersPage = () => {
         isOpen={showAddUserModal}
         onClose={() => setShowAddUserModal(false)}
         onSuccess={() => {
-          // Refresh users list here
-          console.log('User created successfully');
+          FetchUsers();
         }}
       />
     </div>

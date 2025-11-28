@@ -1,8 +1,28 @@
 import axiosConfig from "../axios/axiosConfig";
-
+//  ===========-=-=-=-=-==-=-=- ADMIN LOGIN =-=-=-=-=-=-=--============-=-=-=
 export const adminLogin = async (email: string, password: string) => {
   try {
     const response = await axiosConfig.post("/api/auth/login", {email, password});
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
+};
+
+export const ForgotPassword = async (email: string,) => {
+  try {
+    const response = await axiosConfig.post("/api/auth/forgot-password", {email});
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
+};
+
+export const getusers = async () => {
+  try {
+    const response = await axiosConfig.get("/api/auth/users");
     return response.data;
   } catch (error) {
     console.error("Error during registration:", error);
