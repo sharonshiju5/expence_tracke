@@ -1,6 +1,6 @@
 import axiosConfig from "../axios/axiosConfig";
 
-export const adminRegister = async (email: string, password: string) => {
+export const adminLogin = async (email: string, password: string) => {
   try {
     const response = await axiosConfig.post("/api/auth/login", {email, password});
     return response.data;
@@ -23,6 +23,16 @@ export const userRegister = async (username: string, mobile: string, email: stri
 export const addIncome = async (date: string, amount: number, itemName: string, customerName: string, customerNumber: string, status: string) => {
   try {
     const response = await axiosConfig.post("/api/transactions", {date, amount, itemName, customerName, customerNumber, status});
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
+};
+
+export const getDashBoard = async () => {
+  try {
+    const response = await axiosConfig.get(`/api/reports/my-report`);
     return response.data;
   } catch (error) {
     console.error("Error during registration:", error);

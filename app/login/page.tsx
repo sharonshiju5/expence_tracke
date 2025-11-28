@@ -1,6 +1,6 @@
 'use client'
 import { setLoginResponse } from '@/lib/auth'
-import { adminRegister } from '@/lib/services/apiService'
+import { adminLogin } from '@/lib/services/apiService'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
@@ -17,7 +17,7 @@ function LoginPage() {
   const handleLogin = async () => {
     setLoading(true)
     try {
-      const response = await adminRegister(email,password)
+      const response = await adminLogin(email,password)
       if (response.token) {
         setLoginResponse(response)
         toast.success('Login successful!')
