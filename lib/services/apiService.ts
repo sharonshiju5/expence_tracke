@@ -20,9 +20,10 @@ export const ForgotPassword = async (email: string,) => {
   }
 };
 
-export const adminreport = async () => {
+export const adminreport = async (status: string = '', page: number = 1, limit: number = 10) => {
   try {
-    const response = await axiosConfig.get(`/api/transactions/admin`);
+    const query = `?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}`;
+    const response = await axiosConfig.get(`/api/transactions/admin${query}`);
     console.log("admin report??????????????????");
     
     return response.data;
@@ -112,9 +113,9 @@ export const getexpence = async (title: string, username: string) => {
   }
 };
 
-export const getreport = async (page: number = 1, limit: number = 10, search: string = '', date: string = '', customerName: string = '') => {
+export const getreport = async (page: number = 1, limit: number = 10, search: string = '', date: string = '', customerName: string = '', status: string = '') => {
   try {
-    const response = await axiosConfig.get(`/api/reports/transaction-report?page=${page}&limit=${limit}&search=${search}&date=${date}&customerName=${customerName}`);
+    const response = await axiosConfig.get(`/api/reports/transaction-report?page=${page}&limit=${limit}&search=${search}&date=${date}&customerName=${customerName}${status ? `&status=${status}` : ''}`);
     return response.data;
   } catch (error) {
     console.error("Error during registration:", error);

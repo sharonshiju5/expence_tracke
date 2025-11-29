@@ -26,9 +26,9 @@ const ReportPage = () => {
       const user = getCurrentUser()
       const admin = user?.role?.toLowerCase() === 'admin'
       if (admin) {
-        response = await adminreport()
+        response = await adminreport(statusFilter, page, 10)
       } else {
-        response = await getreport(page, 10, searchTerm, selectedDate, searchTerm)
+        response = await getreport(page, 10, searchTerm, selectedDate, searchTerm, statusFilter)
       }
       if (response?.status === 'success') {
         setReportData(response.data || response.transactions || [])
@@ -79,20 +79,18 @@ const ReportPage = () => {
       </div>
 
       {/* Section Header */}
-      <div className='flex justify-between items-center mb-6 gap-4'>
-        <h2 className='text-2xl font-bold text-white'>All Reports</h2>
+      <div className='flex justify-between flex-wrap items-center mb-6 gap-4'>
+        <h2 className='text-2xl font-bold text-white whitespace-nowrap '>All Reports</h2>
         <div className='flex gap-2'>
-          {isAdmin && (
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className='bg-[#2A2A2A] text-white px-4 py-2 rounded-full outline-none text-sm'
-            >
-              <option value=''>All Status</option>
-              <option value='Completed'>Completed</option>
-              <option value='Pending'>Pending</option>
-            </select>
-          )}
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className='bg-[#2A2A2A] text-white px-4 py-2 rounded-full outline-none text-sm'
+          >
+            <option value=''>All Status</option>
+            <option value='Completed'>Completed</option>
+            <option value='Pending'>Pending</option>
+          </select>
           <input
             type='date'
             value={selectedDate}

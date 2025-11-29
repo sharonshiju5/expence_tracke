@@ -71,7 +71,7 @@ const TransactionPage = () => {
     return (
         <div className='bg-black min-h-screen relative p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto'>
             {/* Header */}
-            <div className='flex justify-between items-center mb-6 sm:mb-8'>
+            {/* <div className='flex justify-between items-center mb-6 sm:mb-8'>
                 <button className='w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center' suppressHydrationWarning>
                     <svg className='w-4 h-4 sm:w-5 sm:h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
@@ -80,11 +80,11 @@ const TransactionPage = () => {
                 <button className='w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center' suppressHydrationWarning>
                     <Image className='w-5 h-5 sm:w-6 sm:h-6' src={notification} alt="Notification" />
                 </button>
-            </div>
+            </div> */}
 
             {/* Filter Tabs */}
-            <div className='flex gap-2 sm:gap-3 mb-6 overflow-x-auto'>
-                {['Income', 'Expense', 'Updated'].map((tab) => (
+            <div className='flex gap-2 mt-5 sm:gap-3 mb-6 overflow-x-auto'>
+                {['Income', 'Expense', 'Pending'].map((tab) => (
                     <button
                         key={tab}
                         onClick={() => {
@@ -138,7 +138,7 @@ const TransactionPage = () => {
             {/* Section Header */}
             <div className='flex justify-between items-center mb-4 flex-wrap gap-2'>
                 <h2 className='text-xl sm:text-2xl font-bold text-gray-300'>All Transactions</h2>
-                <button className='bg-[#2A2A2A] text-white px-3 sm:px-4 py-2 rounded-full flex items-center gap-1 sm:gap-2 text-sm sm:text-base' suppressHydrationWarning>
+                {/* <button className='bg-[#2A2A2A] text-white px-3 sm:px-4 py-2 rounded-full flex items-center gap-1 sm:gap-2 text-sm sm:text-base' suppressHydrationWarning>
                     <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' />
                     </svg>
@@ -146,7 +146,7 @@ const TransactionPage = () => {
                     <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
                     </svg>
-                </button>
+                </button> */}
             </div>
 
             {/* Transactions List */}
