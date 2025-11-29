@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { getreport, adminreport } from '@/lib/services/apiService';
 import { useAuth } from '@/hooks/useAuth';
 import { getCurrentUser } from '@/lib/auth';
+import NoDataFound from '@/components/NoDataFound';
 
 const ReportPage = () => {
   useAuth();
@@ -120,7 +121,10 @@ const ReportPage = () => {
 
       {/* Reports List */}
       <div className='space-y-4 mb-20'>
-        {reportData.map((report: any, index: number) => (
+        {reportData.length === 0 ? (
+          <NoDataFound message='No reports found' />
+        ) : (
+          reportData.map((report: any, index: number) => (
           <div key={report._id} className='bg-[#2A2A2A] rounded-2xl p-6 text-white'>
             <div className='flex items-center justify-between mb-4'>
               <div className='flex items-center gap-3'>
@@ -171,7 +175,8 @@ const ReportPage = () => {
               </div>
             </div>
           </div>
-        ))}
+        ))
+        )}
         
         {/* Pagination */}
         {pagination.pages > 1 && (
