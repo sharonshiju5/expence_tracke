@@ -60,7 +60,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSuccess 
       onClose();
       setFormData({ fullName: '', email: '', password: '', mobile: '', role: '' });
       setErrors({});
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating user:', error);
       toast.error(error?.response?.data?.error || 'Failed to create user. Please try again.');
     } finally {
