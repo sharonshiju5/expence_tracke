@@ -13,12 +13,12 @@ const ReportPage = () => {
   const [extraSummary, setExtraSummary] = useState<any>({})
   const [selectedDate, setSelectedDate] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
-  const [isAdmin, setIsAdmin] = useState(false)
+  // const [isAdmin, setIsAdmin] = useState(false)
 
-  useEffect(() => {
-    const user = getCurrentUser()
-    setIsAdmin(user?.role?.toLowerCase() === 'admin')
-  }, [])
+  // useEffect(() => {
+  //   const user = getCurrentUser()
+  //   setIsAdmin(user?.role?.toLowerCase() === 'admin')
+  // }, [])
   
   const fetchReports = useCallback(async (page = 1) => {
     try {

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { userRegister } from '@/lib/services/apiService';
 import { validateEmail, validateMobile, validatePassword } from '@/lib/validation';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface AddUserModalProps {
   isOpen: boolean;
@@ -51,13 +52,17 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSuccess 
     setLoading(true);
     
     try {
-      await userRegister(formData.fullName, formData.mobile, formData.email, formData.password);
+      const response= await userRegister(formData.fullName, formData.mobile, formData.email, formData.password);
+      if (response.statusCode==200) {
+        toast.success(response.message);
+      }
       onSuccess();
       onClose();
       setFormData({ fullName: '', email: '', password: '', mobile: '', role: '' });
       setErrors({});
     } catch (error) {
       console.error('Error creating user:', error);
+      toast.error(error?.response?.data?.error || 'Failed to create user. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -67,6 +72,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSuccess 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <Toaster position='top-right'/>
       <div className="bg-[#2A2A2A] rounded-3xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-white text-2xl font-bold">Add User</h2>

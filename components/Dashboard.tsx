@@ -48,7 +48,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
             <div className='p-1 bg-white rounded-full h-7 w-7'>
               <img className='' src="https://cdn-icons-png.flaticon.com/128/54/54993.png" alt="" />
             </div>
-            <h2 className='text-xl mb-3'>This Month</h2>
+            <h2 className='text-xl mb-3 whitespace-nowrap'>This Month</h2>
           </div>
           <h1 className='font-bold text-xl mb-3'>Total Income</h1>
           <h1 className='font-bold text-2xl mb-3'>QAR {financialSummary?.totalIncome || 0}</h1>
@@ -58,7 +58,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
             <div className='p-1 bg-white rounded-full h-7 w-7'>
               <img className='' src="https://cdn-icons-png.flaticon.com/128/54/54993.png" alt="" />
             </div>
-            <h2 className='text-xl mb-3'>This Month</h2>
+            <h2 className='text-xl mb-3 whitespace-nowrap'>This Month</h2>
           </div>
           <h1 className='font-bold text-xl mb-3'>Total Pending</h1>
           <h1 className='font-bold text-2xl mb-3'>QAR {financialSummary?.totalPending || 0}</h1>
@@ -68,9 +68,9 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
             <div className='p-1 bg-white rounded-full h-7 w-7'>
               <img className='' src="https://cdn-icons-png.flaticon.com/128/54/54993.png" alt="" />
             </div>
-            <h2 className=' text-xl mb-3'>This Month</h2>
+            <h2 className=' text-xl mb-3 whitespace-nowrap'>This Month</h2>
           </div>
-          <h1 className='font-bold text-xl mb-3'>Total Expenses</h1>
+          <h1 className='font-bold text-xl mb-3 whitespace-nowrap'>Total Expenses</h1>
           <h1 className='font-bold text-2xl mb-3'>QAR {financialSummary?.totalExpenses || 0}</h1>
         </div>        
         <div className='bg-gradient-to-br from-[#0EA5E9] to-white rounded-2xl p-4'>
@@ -78,7 +78,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
             <div className='p-1 bg-white rounded-full h-7 w-7'>
               <img className='' src="https://cdn-icons-png.flaticon.com/128/54/54993.png" alt="" />
             </div>
-            <h2 className='text-xl mb-3'>This Month</h2>
+            <h2 className='text-xl mb-3 whitespace-nowrap'>This Month</h2>
           </div>
           <h1 className='font-bold text-xl mb-3'>Net Balance</h1>
           <h1 className='font-bold text-2xl mb-3'>QAR {financialSummary?.netBalance || 0}</h1>
