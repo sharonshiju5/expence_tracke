@@ -20,9 +20,9 @@ export const ForgotPassword = async (email: string,) => {
   }
 };
 
-export const adminreport = async (status: string = '', page: number = 1, limit: number = 10) => {
+export const adminreport = async (search: string, status: string = '', page: number = 1, limit: number = 10) => {
   try {
-    const query = `?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}`;
+    const query = `?customerName=${search}&page=${page}&limit=${limit}${status ? `&status=${status}` : ''}`;
     const response = await axiosConfig.get(`/api/transactions/admin${query}`);
     console.log("admin report??????????????????");
     
@@ -33,9 +33,9 @@ export const adminreport = async (status: string = '', page: number = 1, limit: 
   }
 };
 
-export const getusers = async () => {
+export const getusers = async (search: string = '') => {
   try {
-    const response = await axiosConfig.get("/api/auth/users");
+    const response = await axiosConfig.get(`/api/auth/users?usernam=${search}`);
     return response.data;
   } catch (error) {
     console.error("Error during registration:", error);
@@ -66,6 +66,16 @@ export const addIncome = async (date: string, amount: number, itemName: string, 
 export const getDashBoard = async () => {
   try {
     const response = await axiosConfig.get(`/api/reports/my-report`);
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
+};
+
+export const getGraph = async () => {
+  try {
+    const response = await axiosConfig.get(`/api/reports/daily?`);
     return response.data;
   } catch (error) {
     console.error("Error during registration:", error);

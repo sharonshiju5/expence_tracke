@@ -26,7 +26,7 @@ const ReportPage = () => {
       const user = getCurrentUser()
       const admin = user?.role?.toLowerCase() === 'admin'
       if (admin) {
-        response = await adminreport(statusFilter, page, 10)
+        response = await adminreport(searchTerm,statusFilter, page, 10)
       } else {
         response = await getreport(page, 10, searchTerm, selectedDate, searchTerm, statusFilter)
       }

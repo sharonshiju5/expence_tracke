@@ -14,7 +14,7 @@ const UsersPage = () => {
 
   async function FetchUsers() {
     try {
-      const response = await getusers()
+      const response = await getusers(searchTerm)
       if (response.statusCode === 200) {
         setUsers(response.data)
       }
@@ -24,7 +24,7 @@ const UsersPage = () => {
   }
   useEffect(() => {
     FetchUsers()
-  }, [])
+  }, [searchTerm])
 
   return (
     <div className='bg-black min-h-screen p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto'>

@@ -35,9 +35,9 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
   return (
     <div className='w-full bg-black h-auto pt-10 p-3'>
       <div className='flex justify-between mb-5 text-white'>
-        <button className='w-40 h-12 bg-[#2A2A2A] whitespace-nowrap mb-5 flex justify-center items-center gap-2 p-5 rounded-2xl'>
-            <Image src={calendar} className=' w-7' alt="Notification" />
-            This month</button>
+        <button className='w-30 h-12 bg-[#2A2A2A] text-xl whitespace-nowrap mb-5 flex justify-center items-center gap-2 p-5 rounded-2xl'>
+            {/* <Image src={calendar} className=' w-7' alt="Notification" /> */}
+            All time</button>
         {/* <button className='w-12 h-12 bg-[#2a2a2a] mb-5 rounded-full flex justify-center items-center'>
             <Image src={notification} className=' w-7' alt="Notification" />
         </button> */}
