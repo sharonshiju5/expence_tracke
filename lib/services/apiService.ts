@@ -20,6 +20,18 @@ export const ForgotPassword = async (email: string,) => {
   }
 };
 
+export const adminreport = async () => {
+  try {
+    const response = await axiosConfig.get(`/api/transactions/admin`);
+    console.log("admin report??????????????????");
+    
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
+};
+
 export const getusers = async () => {
   try {
     const response = await axiosConfig.get("/api/auth/users");

@@ -1,32 +1,50 @@
 'use client';
-import React, { useState, useEffect } from 'react'
-import { getreport } from '@/lib/services/apiService';
+import React, { useState, useEffect, useCallback } from 'react'
+import { getreport, adminreport } from '@/lib/services/apiService';
 import { useAuth } from '@/hooks/useAuth';
+import { getCurrentUser } from '@/lib/auth';
 
 const ReportPage = () => {
-  useAuth(); // Only users can access this page
+  useAuth();
   const [searchTerm, setSearchTerm] = useState('')
   const [reportData, setReportData] = useState<any[]>([])
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 })
   const [extraSummary, setExtraSummary] = useState<any>({})
   const [selectedDate, setSelectedDate] = useState('')
+  const [statusFilter, setStatusFilter] = useState('')
+  const [isAdmin, setIsAdmin] = useState(false)
 
-  async function fetchReports(page = 1) {
+  useEffect(() => {
+    const user = getCurrentUser()
+    setIsAdmin(user?.role?.toLowerCase() === 'admin')
+  }, [])
+  
+  const fetchReports = useCallback(async (page = 1) => {
     try {
-      const response = await getreport(page, 10, searchTerm, selectedDate, searchTerm)
-      if (response.status === 'success') {
-        setReportData(response.transactions)
-        setPagination(response.pagination)
-        setExtraSummary(response.extraSummary)
+      let response;
+      const user = getCurrentUser()
+      const admin = user?.role?.toLowerCase() === 'admin'
+      if (admin) {
+        response = await adminreport()
+      } else {
+        response = await getreport(page, 10, searchTerm, selectedDate, searchTerm)
+      }
+      if (response?.status === 'success') {
+        setReportData(response.data || response.transactions || [])
+        setPagination(response.pagination || { page: 1, limit: 10, total: 0, pages: 0 })
+        setExtraSummary(response.extraSummary || {})
+      } else {
+        setReportData([])
       }
     } catch (error) {
       console.log(error);
+      setReportData([])
     }
-  }
+  }, [searchTerm, selectedDate, statusFilter])
 
   useEffect(() => {
     fetchReports(1)
-  }, [searchTerm, selectedDate])
+  }, [fetchReports])
 
   const handlePageChange = (newPage: number) => {
     fetchReports(newPage)
@@ -60,21 +78,31 @@ const ReportPage = () => {
       </div>
 
       {/* Section Header */}
-      <div className='flex justify-between items-center mb-6'>
+      <div className='flex justify-between items-center mb-6 gap-4'>
         <h2 className='text-2xl font-bold text-white'>All Reports</h2>
-        <div>
-            {/* <h6 className='text-white ml-2 text-sm'>date</h6> */}
-            <input
-          type='date'
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          className='bg-[#2A2A2A] text-white px-4 py-2 rounded-full outline-none text-sm min-w-[120px]'
-          style={{
-            colorScheme: 'dark',
-            WebkitAppearance: 'none',
-            MozAppearance: 'textfield'
-          }}
-        />
+        <div className='flex gap-2'>
+          {isAdmin && (
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className='bg-[#2A2A2A] text-white px-4 py-2 rounded-full outline-none text-sm'
+            >
+              <option value=''>All Status</option>
+              <option value='Completed'>Completed</option>
+              <option value='Pending'>Pending</option>
+            </select>
+          )}
+          <input
+            type='date'
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className='bg-[#2A2A2A] text-white px-4 py-2 rounded-full outline-none text-sm min-w-[120px]'
+            style={{
+              colorScheme: 'dark',
+              WebkitAppearance: 'none',
+              MozAppearance: 'textfield'
+            }}
+          />
         </div>
       </div>
 
