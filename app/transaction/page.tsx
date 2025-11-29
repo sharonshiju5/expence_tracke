@@ -248,14 +248,14 @@ const TransactionPage = () => {
                                                 <p className='text-gray-400 text-sm mb-1'>Total Expense</p>
                                                 <p className='text-red-400 text-xl font-bold'>QAR {expense.amount}</p>
                                             </div>
-                                            <div className='flex gap-3'>
+                                            {/* <div className='flex gap-3'>
                                                 <button className='px-6 py-2 border border-red-500 text-red-500 rounded-full text-sm'>
                                                     Delete
                                                 </button>
                                                 <button className='px-6 py-2 bg-[#FC95E1] text-black rounded-full text-sm'>
                                                     Edit
                                                 </button>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </>
                                     )}

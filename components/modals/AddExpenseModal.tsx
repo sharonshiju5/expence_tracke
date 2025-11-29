@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { addexpence } from '@/lib/services/apiService';
+import { toast, Toaster } from 'react-hot-toast';
 
 interface AddExpenseModalProps {
     isOpen: boolean;
@@ -31,7 +32,10 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSu
         try {
             const expenseDate = new Date().toISOString();
             const title = formData.itemName || formData.customerName;
-            await addexpence(expenseDate, title, formData.description, parseFloat(formData.amount));
+             const response = await addexpence(expenseDate, title, formData.description, parseFloat(formData.amount));
+            if (response) {
+                toast.success(response?.message || 'Expense added successfully');
+            }
             onSuccess();
             onClose();
             setFormData({
@@ -43,6 +47,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSu
             });
         } catch (error) {
             console.error('Error adding expense:', error);
+            toast.error('Failed to add expense. Please try again.');
         }
     };
 
@@ -51,6 +56,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSu
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-[#2A2A2A] rounded-3xl w-full max-w-md p-6 text-white">
+                <Toaster position='top-right'/> 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-semibold">Add Expense</h2>

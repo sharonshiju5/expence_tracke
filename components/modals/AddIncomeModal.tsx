@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { addIncome } from '@/lib/services/apiService';
+import { toast, Toaster } from 'react-hot-toast';
 
 interface AddIncomeModalProps {
     isOpen: boolean;
@@ -26,7 +27,10 @@ const AddIncomeModal: React.FC<AddIncomeModalProps> = ({ isOpen, onClose, onSucc
         setLoading(true);
         try {
             const today = new Date().toISOString().split('T')[0];
-            await addIncome(today, parseFloat(amount), itemName, customerName, customerNumber,status);
+             const response = await addIncome(today, parseFloat(amount), itemName, customerName, customerNumber,status);
+            if (response.statusCode === 200) {
+                toast.success(response.message);
+            }
             onSuccess();
             onClose();
             // Reset form
@@ -37,7 +41,7 @@ const AddIncomeModal: React.FC<AddIncomeModalProps> = ({ isOpen, onClose, onSucc
             setStatus('Pending');
         } catch (error) {
             console.error('Error adding income:', error);
-            alert('Failed to add income');
+            toast.error('Failed to add income');
         } finally {
             setLoading(false);
         }
@@ -47,6 +51,7 @@ const AddIncomeModal: React.FC<AddIncomeModalProps> = ({ isOpen, onClose, onSucc
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <Toaster position='top-right'/>
             <div className="bg-[#2A2A2A] rounded-3xl w-full max-w-md p-6 text-white">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
