@@ -10,9 +10,15 @@ const poppins = Poppins({
 });
  
 export const metadata: Metadata = {
-  title: "Smart Ledger & Expense Tracker",
+  title: "Expense Tracker",
   description: "A comprehensive expense tracking and ledger management system",
+  icons: {
+    icon: '/lll.png',
+    // icon: '/logo2.png',
+  },
+
 };
+
 
 export default function RootLayout({
   children,
