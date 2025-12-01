@@ -55,12 +55,6 @@ const ReportPage = () => {
     <div className='bg-black min-h-screen p-4 sm:p-6 lg:p-8 overflow-y-auto max-h-screen'>
       {/* Header */}
       <div className='flex justify-between items-center mb-6'>
-        {/* <button className='w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center'>
-          <svg className='w-5 h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
-          </svg>
-        </button> */}
-        
         {/* Search Bar */}
         <div className="relative flex-1 mx-4">
           <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -91,7 +85,6 @@ const ReportPage = () => {
             <option value='Completed'>Completed</option>
             <option value='Pending'>Pending</option>
           </select>
-          <h1 className='text-white'>date</h1>
           <input
             type='date'
             value={selectedDate}
@@ -106,17 +99,19 @@ const ReportPage = () => {
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className='grid grid-cols-2 gap-4 mb-6'>
-        <div className='bg-[#2A2A2A] rounded-xl p-4'>
-          <p className='text-gray-400 text-sm'>{isAdmin ? 'Total Revenue' : 'Total Income'}</p>
-          <p className='text-green-400 text-xl font-bold'>QAR {(extraSummary as any)?.totalRevenue?.toFixed(2) || (extraSummary as any)?.totalIncome?.toFixed(2) || '0'}</p>
+      {/* Summary Cards - Only for Admin */}
+      {isAdmin && (
+        <div className='grid grid-cols-2 gap-4 mb-6'>
+          <div className='bg-[#2A2A2A] rounded-xl p-4'>
+            <p className='text-gray-400 text-sm'>Total Revenue</p>
+            <p className='text-green-400 text-xl font-bold'>QAR {(extraSummary as any)?.totalRevenue?.toFixed(2) || '0'}</p>
+          </div>
+          <div className='bg-[#2A2A2A] rounded-xl p-4'>
+            <p className='text-gray-400 text-sm'>Total Pending</p>
+            <p className='text-yellow-400 text-xl font-bold'>QAR {(extraSummary as any)?.totalPending?.toFixed(2) || '0'}</p>
+          </div>
         </div>
-        <div className='bg-[#2A2A2A] rounded-xl p-4'>
-          <p className='text-gray-400 text-sm'>{isAdmin ? 'Total Pending' : 'Total Expense'}</p>
-          <p className={`text-xl font-bold ${isAdmin ? 'text-yellow-400' : 'text-red-400'}`}>QAR {(extraSummary as any)?.totalPending?.toFixed(2) || (extraSummary as any)?.totalExpense?.toFixed(2) || '0'}</p>
-        </div>
-      </div>
+      )}
 
       {/* Reports List */}
       <div className='space-y-4 mb-20'>
