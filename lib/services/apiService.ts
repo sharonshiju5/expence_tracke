@@ -106,7 +106,7 @@ export const getDashBoardAdmin = async () => {
 
 export const getGraph = async () => {
   try {
-    const response = await axiosConfig.get(`/api/reports/daily?`);
+    const response = await axiosConfig.get(`/api/reports/daily`);
     return response.data;
   } catch (error) {
     console.error("Error during registration:", error);
