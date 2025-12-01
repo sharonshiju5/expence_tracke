@@ -177,7 +177,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSuccess,
             <label className="text-white text-sm mb-2 block">Mobile Number</label>
             <div className={`flex bg-black rounded-full ${errors.mobile ? 'border border-red-500' : ''}`}>
               <div className="flex items-center px-4 border-r border-gray-600">
-                <span className="text-white">+91</span>
+                <span className="text-white">+971</span>
                 <svg className="w-4 h-4 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>

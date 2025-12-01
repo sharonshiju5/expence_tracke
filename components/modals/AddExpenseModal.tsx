@@ -90,7 +90,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ isOpen, onClose, onSu
                         <label className="block text-white mb-2">Mobile Number</label>
                         <div className="relative">
                             <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex items-center">
-                                <span className="text-white">+91</span>
+                                <span className="text-white">+971</span>
                                 <svg className="w-4 h-4 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
