@@ -91,7 +91,7 @@ const ReportPage = () => {
             <option value='Completed'>Completed</option>
             <option value='Pending'>Pending</option>
           </select>
-          <h1>date</h1>
+          <h1 className='text-white'>date</h1>
           <input
             type='date'
             value={selectedDate}
