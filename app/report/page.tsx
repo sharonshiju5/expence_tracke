@@ -148,7 +148,7 @@ const ReportPage = () => {
               </div>
               <div>
                 <p className='text-gray-400'>Transaction Date</p>
-                <p className='text-white'>{report.date}</p>
+                <p className='text-white'>{report.date || new Date(report.createdAt).toLocaleDateString()}</p>
               </div>
               <div>
                 <p className='text-gray-400'>Entered By</p>
