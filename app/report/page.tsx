@@ -13,12 +13,7 @@ const ReportPage = () => {
   const [extraSummary, setExtraSummary] = useState<any>({})
   const [selectedDate, setSelectedDate] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
-  // const [isAdmin, setIsAdmin] = useState(false)
-
-  // useEffect(() => {
-  //   const user = getCurrentUser()
-  //   setIsAdmin(user?.role?.toLowerCase() === 'admin')
-  // }, [])
+  const [showDatePicker, setShowDatePicker] = useState(false)
   
   const fetchReports = useCallback(async (page = 1) => {
     try {
@@ -55,12 +50,6 @@ const ReportPage = () => {
     <div className='bg-black min-h-screen p-4 sm:p-6 lg:p-8 overflow-y-auto max-h-screen'>
       {/* Header */}
       <div className='flex justify-between items-center mb-6'>
-        {/* <button className='w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center'>
-          <svg className='w-5 h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
-          </svg>
-        </button> */}
-        
         {/* Search Bar */}
         <div className="relative flex-1 mx-4">
           <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -81,7 +70,7 @@ const ReportPage = () => {
       {/* Section Header */}
       <div className='flex justify-between flex-wrap items-center mb-6 gap-4'>
         <h2 className='text-2xl font-bold text-white whitespace-nowrap '>All Reports</h2>
-        <div className='flex gap-2'>
+        <div className='flex gap-2 relative'>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -91,17 +80,32 @@ const ReportPage = () => {
             <option value='Completed'>Completed</option>
             <option value='Pending'>Pending</option>
           </select>
-          <input
-            type='date'
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className='bg-[#2A2A2A] text-white px-4 py-2 rounded-full outline-none text-sm min-w-[120px]'
-            style={{
-              colorScheme: 'dark',
-              WebkitAppearance: 'none',
-              MozAppearance: 'textfield'
-            }}
-          />
+          <button
+            onClick={() => setShowDatePicker(!showDatePicker)}
+            className='bg-[#2A2A2A] text-white px-4 py-2 rounded-full outline-none text-sm flex items-center gap-2'
+          >
+            <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' />
+            </svg>
+            {selectedDate ? new Date(selectedDate).toLocaleDateString() : 'Select Date'}
+          </button>
+          {showDatePicker && (
+            <input
+              type='date'
+              value={selectedDate}
+              onChange={(e) => {
+                setSelectedDate(e.target.value)
+                setShowDatePicker(false)
+              }}
+              className='absolute top-12 bg-[#2A2A2A] text-white px-4 py-2 rounded-full outline-none text-sm min-w-[120px]'
+              style={{
+                colorScheme: 'dark',
+                WebkitAppearance: 'none',
+                MozAppearance: 'textfield'
+              }}
+              autoFocus
+            />
+          )}
         </div>
       </div>
 
