@@ -94,6 +94,16 @@ export const getDashBoard = async () => {
   }
 };
 
+export const getDashBoardAdmin = async () => {
+  try {
+    const response = await axiosConfig.get(`/api/reports/admin/monthly`);
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
+};
+
 export const getGraph = async () => {
   try {
     const response = await axiosConfig.get(`/api/reports/daily?`);

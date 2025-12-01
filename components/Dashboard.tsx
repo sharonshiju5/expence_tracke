@@ -7,7 +7,7 @@ import { getFinancialSummary } from '@/lib/data';
 import calendar from "./assetes/calendar.png"
 import notification from "./assetes/notification.png"
 import Image from "next/image";
-import { getDashBoard } from '@/lib/services/apiService';
+import { getDashBoard, getDashBoardAdmin } from '@/lib/services/apiService';
 
 interface DashboardProps {
   user: User;
@@ -17,20 +17,21 @@ interface DashboardProps {
 
 export default function Dashboard({ user, onLogout }: DashboardProps) {
   const [financialSummary, setFinancialSummary] = useState<any>(null);
+  
   async function HandelGetDashBoard() {
     try {
-      const response = await getDashBoard()
+      const response = isAdmin(user) ? await getDashBoardAdmin() : await getDashBoard();
       if (response.success) {
-        setFinancialSummary(response.data)
+        setFinancialSummary(response.data.userTotals || response.data);
       }
     } catch (error) {
       console.log(error)
     }
   }
+  
   useEffect(() => {
     HandelGetDashBoard();
   }, []);
-  // const tabs = isAdmin(user) ? adminTabs : userTabs;
 
   return (
     <div className='w-full bg-black h-auto pt-10 p-3'>
