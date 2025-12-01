@@ -156,7 +156,7 @@ export const getexpence = async (title: string, username: string) => {
 
 export const getreport = async (page: number = 1, limit: number = 10, search: string = '', date: string = '', customerName: string = '', status: string = '') => {
   try {
-    const response = await axiosConfig.get(`/api/reports/transaction-report?page=${page}&limit=${limit}&search=${search}&date=${date}&customerName=${customerName}${status ? `&status=${status}` : ''}`);
+    const response = await axiosConfig.get(`/api/user/reports/transaction-report?page=${page}&limit=${limit}&search=${search}&date=${date}&customerName=${customerName}${status ? `&status=${status}` : ''}`);
     return response.data;
   } catch (error) {
     console.error("Error during registration:", error);
