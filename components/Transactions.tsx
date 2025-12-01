@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import add from "./assetes/add.png"
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { getIncome } from '@/lib/services/apiService';
+import { getIncome, getRecentTransactions } from '@/lib/services/apiService';
 import { getCurrentUser } from '@/lib/auth';
 
 const Transactions = () => {
@@ -12,7 +12,9 @@ const Transactions = () => {
 
     async function HandelGetExpence() {
         try {
-            const response = await getIncome()
+            const user = getCurrentUser();
+            const isAdmin = user?.role?.toLowerCase() === 'admin';
+            const response = isAdmin ? await getRecentTransactions() : await getIncome();
             console.log('API Response:', response)
             if (response.status === 'success') {
                 setExpensesData(response.data)

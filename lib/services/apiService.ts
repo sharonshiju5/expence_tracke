@@ -94,6 +94,16 @@ export const getDashBoard = async () => {
   }
 };
 
+export const getRecentTransactions = async () => {
+  try {
+    const response = await axiosConfig.get(`/api/reports/staff/recent-transactions`);
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
+};
+
 export const getDashBoardAdmin = async () => {
   try {
     const response = await axiosConfig.get(`/api/reports/admin/monthly`);
@@ -126,7 +136,7 @@ export const getIncome = async (queryParams: string = '') => {
 
 export const updateIncome = async (id: string) => {
   try {
-    const response = await axiosConfig.put(`api/transactions/${id}`, {status: "Completed"});
+    const response = await axiosConfig.put(`/api/transactions/${id}`, {status: "Completed"});
     return response.data;
   } catch (error) {
     console.error("Error during registration:", error);

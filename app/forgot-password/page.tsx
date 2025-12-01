@@ -74,7 +74,8 @@ function ForgotPasswordPage() {
                 className='w-full bg-gray-800 rounded-full px-6 py-4 text-white placeholder-gray-400 border-none outline-none'
               />
             </div>
-            <button
+            
+             <button
               onClick={handleSendOTP}
               disabled={loading}
               className='absolute bottom-24 w-[90%] bg-gradient-to-r from-pink-400 to-purple-400 rounded-full py-4 text-black font-semibold text-lg flex items-center justify-center gap-2 disabled:opacity-70'
