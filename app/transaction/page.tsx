@@ -64,23 +64,14 @@ const TransactionPage = () => {
             HandelGetExpence()
         } else if (activeTab === 'Income') {
             HandleGetIncome('Completed')
-        } else if (activeTab === 'Updated') {
+        } else if (activeTab === 'Pending') {
             HandleGetIncome('Pending')
         }
-    }, [searchTerm])
+    }, [searchTerm, activeTab])
     return (
         <div className='bg-black min-h-screen relative p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto'>
             {/* Header */}
-            {/* <div className='flex justify-between items-center mb-6 sm:mb-8'>
-                <button className='w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center' suppressHydrationWarning>
-                    <svg className='w-4 h-4 sm:w-5 sm:h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />
-                    </svg>
-                </button>
-                <button className='w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center' suppressHydrationWarning>
-                    <Image className='w-5 h-5 sm:w-6 sm:h-6' src={notification} alt="Notification" />
-                </button>
-            </div> */}
+            {/* <div className='flex justify-between items-center mb-6 sm:mb-8'>\n                <button className='w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center' suppressHydrationWarning>\n                    <svg className='w-4 h-4 sm:w-5 sm:h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>\n                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' />\n                    </svg>\n                </button>\n                <button className='w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center' suppressHydrationWarning>\n                    <Image className='w-5 h-5 sm:w-6 sm:h-6' src={notification} alt=\"Notification\" />\n                </button>\n            </div> */}
 
             {/* Filter Tabs */}
             <div className='flex gap-2 mt-5 sm:gap-3 mb-6 overflow-x-auto'>
@@ -93,7 +84,7 @@ const TransactionPage = () => {
                                 HandelGetExpence()
                             } else if (tab === 'Income') {
                                 HandleGetIncome('Completed')
-                            } else if (tab === 'Updated') {
+                            } else if (tab === 'Pending') {
                                 HandleGetIncome('Pending')
                             }
                         }}
@@ -138,27 +129,19 @@ const TransactionPage = () => {
             {/* Section Header */}
             <div className='flex justify-between items-center mb-4 flex-wrap gap-2'>
                 <h2 className='text-xl sm:text-2xl font-bold text-gray-300'>All Transactions</h2>
-                {/* <button className='bg-[#2A2A2A] text-white px-3 sm:px-4 py-2 rounded-full flex items-center gap-1 sm:gap-2 text-sm sm:text-base' suppressHydrationWarning>
-                    <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' />
-                    </svg>
-                    Today
-                    <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                    </svg>
-                </button> */}
+                {/* <button className='bg-[#2A2A2A] text-white px-3 sm:px-4 py-2 rounded-full flex items-center gap-1 sm:gap-2 text-sm sm:text-base' suppressHydrationWarning>\n                    <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>\n                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' />\n                    </svg>\n                    Today\n                    <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>\n                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />\n                    </svg>\n                </button> */}
             </div>
 
             {/* Transactions List */}
             <div className='space-y-4 mb-35'>
-                {activeTab === 'Updated' ? (
-                    /* Updated Transactions - Show only pending */
+                {activeTab === 'Pending' ? (
+                    /* Pending Transactions */
                     incomeData.map((transaction: any, index: number) => (
-                        <div key={transaction.id} className='bg-[#2A2A2A] rounded-2xl p-6 text-white'>
+                        <div key={transaction._id} className='bg-[#2A2A2A] rounded-2xl p-6 text-white'>
                             <div className='flex items-center justify-between mb-4'>
                                 <div className='flex items-center gap-3'>
                                     <div className='w-12 h-12 bg-white rounded-full flex items-center justify-center text-black font-bold'>
-                                        JW
+                                        {transaction.customerName?.charAt(0) || 'U'}
                                     </div>
                                     <div>
                                         <h3 className='font-semibold'>{transaction.customerName}</h3>
@@ -169,7 +152,7 @@ const TransactionPage = () => {
                                     onClick={() => handleUpdateTransaction(transaction._id)}
                                     className='px-6 py-2 bg-[#FC95E1] text-black rounded-full text-sm font-medium'
                                 >
-                                    Update
+                                    Mark as Paid
                                 </button>
                             </div>
                             <div className='grid grid-cols-3 gap-4 text-sm mb-4'>
@@ -183,12 +166,12 @@ const TransactionPage = () => {
                                 </div>
                                 <div>
                                     <p className='text-gray-400'>Transaction Time</p>
-                                    <p className='text-white'>{transaction.time}</p>
+                                    <p className='text-white'>{new Date(transaction.createdAt).toLocaleTimeString()}</p>
                                 </div>
                             </div>
                             <div className='grid grid-cols-3 gap-4 text-sm'>
                                 <div>
-                                    <p className='text-gray-400 mb-1'>Total Expense</p>
+                                    <p className='text-gray-400 mb-1'>Total Amount</p>
                                     <p className='text-red-400 font-bold'>QAR {transaction.amount}</p>
                                 </div>
                                 <div>
@@ -248,14 +231,6 @@ const TransactionPage = () => {
                                                 <p className='text-gray-400 text-sm mb-1'>Total Expense</p>
                                                 <p className='text-red-400 text-xl font-bold'>QAR {expense.amount}</p>
                                             </div>
-                                            {/* <div className='flex gap-3'>
-                                                <button className='px-6 py-2 border border-red-500 text-red-500 rounded-full text-sm'>
-                                                    Delete
-                                                </button>
-                                                <button className='px-6 py-2 bg-[#FC95E1] text-black rounded-full text-sm'>
-                                                    Edit
-                                                </button>
-                                            </div> */}
                                         </div>
                                     </>
                                     )}
@@ -298,9 +273,9 @@ const TransactionPage = () => {
                 ) : activeTab === 'Income' ? (
                     /* Transaction List Items - Show only completed */
                     incomeData.map((transaction: any, index: number) => (
-                    <div key={transaction._id} className={`bg-[#2A2A2A] rounded-2xl text-white transition-all duration-300 ease-in-out ${expandedTransaction === transaction.id ? 'p-6' : 'p-4'}`}>
-                        <div className={`transition-all duration-300 ease-in-out ${expandedTransaction === transaction.id ? 'opacity-100 max-h-screen' : 'opacity-0 max-h-0 overflow-hidden'}`}>
-                            {expandedTransaction === transaction.id && (
+                    <div key={transaction._id} className={`bg-[#2A2A2A] rounded-2xl text-white transition-all duration-300 ease-in-out ${expandedTransaction === transaction._id ? 'p-6' : 'p-4'}`}>
+                        <div className={`transition-all duration-300 ease-in-out ${expandedTransaction === transaction._id ? 'opacity-100 max-h-screen' : 'opacity-0 max-h-0 overflow-hidden'}`}>
+                            {expandedTransaction === transaction._id && (
                             <>
                                 <div className='flex items-center justify-between mb-4'>
                                     <div className='flex items-center gap-3'>
@@ -342,8 +317,8 @@ const TransactionPage = () => {
                             </>
                             )}
                         </div>
-                        <div className={`transition-all duration-300 ease-in-out ${expandedTransaction === transaction.id ? 'opacity-0 max-h-0 overflow-hidden' : 'opacity-100 max-h-screen'}`}>
-                            {expandedTransaction !== transaction.id && (
+                        <div className={`transition-all duration-300 ease-in-out ${expandedTransaction === transaction._id ? 'opacity-0 max-h-0 overflow-hidden' : 'opacity-100 max-h-screen'}`}>
+                            {expandedTransaction !== transaction._id && (
                             <div className='flex items-center justify-between'>
                                 <div className='flex gap-2 sm:gap-4 text-xs sm:text-sm overflow-x-auto'>
                                     <div>
@@ -365,7 +340,7 @@ const TransactionPage = () => {
                                 </div>
                                 <div className='text-right'>
                                     <p className='text-gray-400 text-sm'>{new Date(transaction.createdAt).toLocaleTimeString()}</p>
-                                    <button onClick={() => setExpandedTransaction(transaction.id)} className='transition-transform duration-200 hover:scale-110'>
+                                    <button onClick={() => setExpandedTransaction(transaction._id)} className='transition-transform duration-200 hover:scale-110'>
                                         <svg className='w-5 h-5 text-gray-400 ml-auto transition-transform duration-300' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                                             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
                                         </svg>
@@ -397,7 +372,7 @@ const TransactionPage = () => {
                 onSuccess={() => {
                     if (activeTab === 'Income') {
                         HandleGetIncome('Completed');
-                    } else if (activeTab === 'Updated') {
+                    } else if (activeTab === 'Pending') {
                         HandleGetIncome('Pending');
                     }
                 }}
