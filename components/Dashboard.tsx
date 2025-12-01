@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { User } from '@/lib/types';
-import { logout, isAdmin } from '@/lib/auth';
+import { logout, getCurrentUser } from '@/lib/auth';
 import { getFinancialSummary } from '@/lib/data';
 import calendar from "./assetes/calendar.png"
 import notification from "./assetes/notification.png"
@@ -20,7 +20,9 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
   
   async function HandelGetDashBoard() {
     try {
-      const response = isAdmin(user) ? await getDashBoardAdmin() : await getDashBoard();
+      const currentUser = getCurrentUser();
+      const admin = currentUser?.role?.toLowerCase() === 'admin';
+      const response = admin ? await getDashBoardAdmin() : await getDashBoard();
       if (response.success) {
         setFinancialSummary(response.data.userTotals || response.data);
       }
