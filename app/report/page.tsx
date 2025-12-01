@@ -13,12 +13,12 @@ const ReportPage = () => {
   const [extraSummary, setExtraSummary] = useState<any>({})
   const [selectedDate, setSelectedDate] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
-  // const [isAdmin, setIsAdmin] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
 
-  // useEffect(() => {
-  //   const user = getCurrentUser()
-  //   setIsAdmin(user?.role?.toLowerCase() === 'admin')
-  // }, [])
+  useEffect(() => {
+    const user = getCurrentUser()
+    setIsAdmin(user?.role?.toLowerCase() === 'admin')
+  }, [])
   
   const fetchReports = useCallback(async (page = 1) => {
     try {
@@ -33,7 +33,7 @@ const ReportPage = () => {
       if (response?.status === 'success') {
         setReportData(response.data || response.transactions || [])
         setPagination(response.pagination || { page: 1, limit: 10, total: 0, pages: 0 })
-        setExtraSummary(response.extraSummary || {})
+        setExtraSummary(response.summary || response.extraSummary || {})
       } else {
         setReportData([])
       }
@@ -109,12 +109,12 @@ const ReportPage = () => {
       {/* Summary Cards */}
       <div className='grid grid-cols-2 gap-4 mb-6'>
         <div className='bg-[#2A2A2A] rounded-xl p-4'>
-          <p className='text-gray-400 text-sm'>Total Income</p>
-          <p className='text-green-400 text-xl font-bold'>QAR {(extraSummary as any)?.totalIncome?.toFixed(2) || '0'}</p>
+          <p className='text-gray-400 text-sm'>{isAdmin ? 'Total Revenue' : 'Total Income'}</p>
+          <p className='text-green-400 text-xl font-bold'>QAR {(extraSummary as any)?.totalRevenue?.toFixed(2) || (extraSummary as any)?.totalIncome?.toFixed(2) || '0'}</p>
         </div>
         <div className='bg-[#2A2A2A] rounded-xl p-4'>
-          <p className='text-gray-400 text-sm'>Total Expense</p>
-          <p className='text-red-400 text-xl font-bold'>QAR {(extraSummary as any)?.totalExpense?.toFixed(2) || '0'}</p>
+          <p className='text-gray-400 text-sm'>{isAdmin ? 'Total Pending' : 'Total Expense'}</p>
+          <p className={`text-xl font-bold ${isAdmin ? 'text-yellow-400' : 'text-red-400'}`}>QAR {(extraSummary as any)?.totalPending?.toFixed(2) || (extraSummary as any)?.totalExpense?.toFixed(2) || '0'}</p>
         </div>
       </div>
 
