@@ -82,7 +82,7 @@ const AddIncomeModal: React.FC<AddIncomeModalProps> = ({ isOpen, onClose, onSucc
                         <label className="block text-white mb-3 text-lg">Mobile Number</label>
                         <div className="relative">
                             <div className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white flex items-center">
-                                <span>+971</span>
+                                <span>+974</span>
                                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
