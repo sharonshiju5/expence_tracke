@@ -11,6 +11,7 @@ const UsersPage = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [users, setUsers] = useState<any[]>([])
   const [showAddUserModal, setShowAddUserModal] = useState(false)
+  const [editingUser, setEditingUser] = useState<any>(null)
 
   async function FetchUsers() {
     try {
@@ -25,6 +26,16 @@ const UsersPage = () => {
   useEffect(() => {
     FetchUsers()
   }, [searchTerm])
+
+  const handleEdit = (user: any) => {
+    setEditingUser(user)
+    setShowAddUserModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setShowAddUserModal(false)
+    setEditingUser(null)
+  }
 
   return (
     <div className='bg-black min-h-screen p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto'>
@@ -63,7 +74,10 @@ const UsersPage = () => {
       <div className='flex justify-between items-center mb-6'>
         <h2 className='text-2xl font-bold text-white'>All Users</h2>
         <button 
-          onClick={() => setShowAddUserModal(true)}
+          onClick={() => {
+            setEditingUser(null)
+            setShowAddUserModal(true)
+          }}
           className='bg-[#FC95E1] text-black px-6 py-3 rounded-full flex items-center gap-2 font-medium'
         >
           <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -76,8 +90,8 @@ const UsersPage = () => {
       {/* Users List */}
       <div className='space-y-4 mb-20'>
         {users.map((user: any, index: number) => (
-          <div key={user._id} className='bg-[#2A2A2A] rounded-2xl p-6 text-white'>
-            <div className='flex gap-3 items-center'>
+          <div key={user._id} className='bg-[#2A2A2A] rounded-2xl p-6 text-white flex items-center justify-between'>
+            <div className='flex gap-3 items-center flex-1'>
               <div className='flex-shrink-0'>
                 <p className='text-gray-400 text-xs'>SI.NO</p>
                 <p className='text-white text-sm'>{index + 1}</p>
@@ -95,16 +109,23 @@ const UsersPage = () => {
                 <p className='text-white text-sm'>{user.role}</p>
               </div>
             </div>
+            <button
+              onClick={() => handleEdit(user)}
+              className='ml-4 bg-[#FC95E1] text-black px-4 py-2 rounded-full text-sm font-medium hover:bg-opacity-80'
+            >
+              Edit
+            </button>
           </div>
         ))}
       </div>
       
       <AddUserModal 
         isOpen={showAddUserModal}
-        onClose={() => setShowAddUserModal(false)}
+        onClose={handleCloseModal}
         onSuccess={() => {
           FetchUsers();
         }}
+        editingUser={editingUser}
       />
     </div>
   )

@@ -53,6 +53,27 @@ export const userRegister = async (username: string, mobile: string, email: stri
   }
 };
 
+export const userUpdate = async (username: string, mobile: string, email: string, password: string, _id: string) => {
+  try {
+    const response = await axiosConfig.put(`/api/auth/users/${_id}`, {username, mobile, email, password});
+    return response.data;
+  } catch (error) {
+    console.error("Error during user update:", error);
+    throw error;
+  }
+};
+
+export const userDelete = async (_id: string) => {
+  try {
+    const response = await axiosConfig.delete(`/api/auth/users/${_id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error during user deletion:", error);
+    throw error;
+  }
+};
+
+
 export const addIncome = async (date: string, amount: number, itemName: string, customerName: string, customerNumber: string, status: string) => {
   try {
     const response = await axiosConfig.post("/api/transactions", {date, amount, itemName, customerName, customerNumber, status});

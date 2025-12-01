@@ -4,7 +4,7 @@ export const validateEmail = (email: string): boolean => {
 };
 
 export const validateMobile = (mobile: string): boolean => {
-  const mobileRegex = /^[0-9]{10}$/;
+  const mobileRegex = /^[0-9]{7,}$/;
   return mobileRegex.test(mobile);
 };
 
